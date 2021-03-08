@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -47,11 +49,12 @@ public class OTPaction extends AppCompatActivity {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(fauth)
                 .setPhoneNumber(number)
                 .setActivity(OTPaction.this)
-                .setTimeout(120L, TimeUnit.SECONDS)
+                .setTimeout(60L, TimeUnit.SECONDS)
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 
+                        //fauth.signInWithCredential(phoneAuthCredential);
                     }
 
                     @Override
