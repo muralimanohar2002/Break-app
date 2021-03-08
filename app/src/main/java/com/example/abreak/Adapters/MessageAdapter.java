@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.abreak.ModelClass.messageInbox;
 import com.example.abreak.R;
 import com.example.abreak.databinding.RecievedChatLayoutBinding;
@@ -114,8 +115,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         if(holder.getClass() == sentViewHolder.class){
             sentViewHolder viewHolder = (sentViewHolder)holder;
-            viewHolder.binding.messageSent.setText(newMessage.getMessage());
 
+            if(newMessage.getMessage().equals("Photo")){
+                viewHolder.binding.sentImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.messageSent.setVisibility(View.GONE);
+                Glide.with(context).load(newMessage.getImageUrl()).placeholder(R.drawable.googleg_disabled_color_18).into(viewHolder.binding.sentImage);
+            }
+
+            viewHolder.binding.messageSent.setText(newMessage.getMessage());
             if(newMessage.getFeelings() >=0){
                 //newMessage.setFeelings(reactions[(int)newMessage.getFeelings()]);
                 viewHolder.binding.feelingFromSender.setImageResource(reactions[(int)newMessage.getFeelings()]);
@@ -131,11 +138,24 @@ public class MessageAdapter extends RecyclerView.Adapter {
                     return false;
                 }
             });
+            viewHolder.binding.sentImage.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popup.onTouch(v, event);
+                    return false;
+                }
+            });
         }
         else{
             receiveViewHolder viewHolder = (receiveViewHolder)holder;
-            viewHolder.binding.messageRecieve.setText(newMessage.getMessage());
 
+            if(newMessage.getMessage().equals("Photo")){
+                viewHolder.binding.recievedImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.messageRecieve.setVisibility(View.GONE);
+                Glide.with(context).load(newMessage.getImageUrl()).placeholder(R.drawable.googleg_disabled_color_18).into(viewHolder.binding.recievedImage);
+            }
+
+            viewHolder.binding.messageRecieve.setText(newMessage.getMessage());
             if(newMessage.getFeelings() >=0){
                 //newMessage.setFeelings(reactions[(int)newMessage.getFeelings()]);
                 viewHolder.binding.feelingFrom.setImageResource(reactions[(int)newMessage.getFeelings()]);
@@ -145,6 +165,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 viewHolder.binding.feelingFrom.setVisibility(View.GONE);
             }
             viewHolder.binding.messageRecieve.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popup.onTouch(v, event);
+                    return false;
+                }
+            });
+            viewHolder.binding.recievedImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     popup.onTouch(v, event);

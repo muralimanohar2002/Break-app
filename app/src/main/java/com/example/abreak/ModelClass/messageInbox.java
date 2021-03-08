@@ -1,7 +1,19 @@
 package com.example.abreak.ModelClass;
 
 public class messageInbox {
-    private String messageId, senderId, message;
+    private String messageId;
+    private String senderId;
+    private String message;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    private String imageUrl;
     private long feelings = -1;
     private long timeofmessage;
 

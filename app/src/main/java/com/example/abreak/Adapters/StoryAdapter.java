@@ -42,11 +42,13 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.statusViewHo
     public void onBindViewHolder(@NonNull statusViewHolder holder, int position) {
         stories tales = userstories.get(position);
 
-        /*status lastStory = tales.getStatuses().get(tales.getStatuses().size() - 1);
+        //status lastStory = tales.getStatuses().get(tales.getStatuses().size() - 1);
 
-        Glide.with(context).load(lastStory.getImgUrl()).into(holder.binding.storydp);
+        //Glide.with(context).load(lastStory.getImgUrl()).into(holder.binding.storydp);
 
-        holder.binding.circularStatusView.setOnClickListener(new View.OnClickListener() {
+        //holder.binding.circularStatusView.setPortionsCount(tales.getStatuses().size());
+
+        /*holder.binding.circularStatusView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<MyStory> myStories = new ArrayList<>();
