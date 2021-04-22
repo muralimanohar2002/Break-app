@@ -24,9 +24,9 @@ public class PhoneNumber extends AppCompatActivity {
         binding.phonenum.requestFocus();
         fauth = FirebaseAuth.getInstance();
 
-        if(fauth.getCurrentUser()!=null){
-            startActivity(new Intent(PhoneNumber.this,MainActivity.class));
-        }
+        //if(fauth.getCurrentUser()!=null){
+            //startActivity(new Intent(PhoneNumber.this,MainActivity.class));
+        //}
         binding.otpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
