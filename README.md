@@ -13,4 +13,5 @@ Break is a native android application where people can interact with each other 
 
 ## Full walkthrough of Break
 Click on image to go on you tube demonstration:
+
 [![Break-app](https://img.youtube.com/vi/RiYI2EHQycM/0.jpg)](https://www.youtube.com/watch?v=RiYI2EHQycM)
