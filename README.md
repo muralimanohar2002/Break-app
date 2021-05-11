@@ -11,6 +11,11 @@ Break is a native android application where people can interact with each other 
 1. Sends text as well as JPEG messages over the server to interact with different people
 2. Person can send the reaction over text and image by tapping over the messages. 5 different types of reactions can be sent.
 
+## Libraries
+- Glide Image Processing: https://github.com/bumptech/glide
+- Reaction View: https://github.com/pgreze/android-reactions
+- Circular Image View: https://github.com/hdodenhof/CircleImageView
+
 ## Full walkthrough of Break
 Click on image to go on you tube demonstration:
 
