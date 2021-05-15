@@ -2,7 +2,7 @@
 Break is a native android application where people can interact with each other in various ways.
 
 ## How to run the app
-1. Either fork or download the app and open the folder using Android Studio
+1. Either fork or clone the repository and open the folder using Android Studio
 2. Install all the dependencies
 3. Go to 'Build' and select 'Build APKs'
 4. Copy the apk over your local device and run the setup
