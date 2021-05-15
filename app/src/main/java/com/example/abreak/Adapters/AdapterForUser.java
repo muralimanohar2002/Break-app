@@ -45,27 +45,21 @@ public class AdapterForUser extends RecyclerView.Adapter<AdapterForUser.friendVi
 
         String senderId = FirebaseAuth.getInstance().getUid();
         String sender = senderId + person.getUid();
-
         FirebaseDatabase.getInstance().getReference()
                 .child("chats")
                 .child(sender)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                         if(snapshot.exists()){
                             String recentmsg = snapshot.child("recentmsg").getValue(String.class);
                             long  recentmsgTime = snapshot.child("recentmsgTime").getValue(Long.class);
-
                             holder.binding.convo.setText(recentmsg);
                         }
                         else holder.binding.convo.setText("Tap to chat");
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
 

@@ -62,8 +62,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
         messageInbox newMessage = messageInboxes.get(position);
+
+
+        //Setting up reaction over messages....................................
         int reactions[] = new int[]{
                 R.drawable.ic_fb_like,
                 R.drawable.ic_fb_love,
@@ -75,23 +77,21 @@ public class MessageAdapter extends RecyclerView.Adapter {
         ReactionsConfig config = new ReactionsConfigBuilder(context)
                 .withReactions(reactions)
                 .build();
-
         ReactionPopup popup = new ReactionPopup(context, config, (positioning) -> {
             if(holder.getClass() == sentViewHolder.class){
                 sentViewHolder viewHolder = (sentViewHolder)holder;
                 viewHolder.binding.feelingFromSender.setImageResource(reactions[positioning]);
-
                 viewHolder.binding.feelingFromSender.setVisibility(View.VISIBLE);
             }
             else{
                 receiveViewHolder viewHolder = (receiveViewHolder)holder;
                 viewHolder.binding.feelingFrom.setImageResource(reactions[positioning]);
-
                 viewHolder.binding.feelingFrom.setVisibility(View.VISIBLE);
             }
-
             newMessage.setFeelings(positioning);
 
+
+            //Database updating.................................
             FirebaseDatabase.getInstance().getReference()
                     .child("chats")
                     .child(sender)
@@ -112,25 +112,30 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
 
 
-
+        //Setting chats from sender and receiver..................................
         if(holder.getClass() == sentViewHolder.class){
             sentViewHolder viewHolder = (sentViewHolder)holder;
 
+
+            //image message.......................................
             if(newMessage.getMessage().equals("Photo")){
                 viewHolder.binding.sentImage.setVisibility(View.VISIBLE);
                 viewHolder.binding.messageSent.setVisibility(View.GONE);
                 Glide.with(context).load(newMessage.getImageUrl()).placeholder(R.drawable.googleg_disabled_color_18).into(viewHolder.binding.sentImage);
             }
 
-            viewHolder.binding.messageSent.setText(newMessage.getMessage());
+
+            //Reaction sent.................................................
             if(newMessage.getFeelings() >=0){
-                //newMessage.setFeelings(reactions[(int)newMessage.getFeelings()]);
                 viewHolder.binding.feelingFromSender.setImageResource(reactions[(int)newMessage.getFeelings()]);
                 viewHolder.binding.feelingFromSender.setVisibility(View.VISIBLE);
             }
             else{
                 viewHolder.binding.feelingFromSender.setVisibility(View.GONE);
             }
+
+
+            //Pop-up of reactions....................................................................
             viewHolder.binding.messageSent.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -145,25 +150,32 @@ public class MessageAdapter extends RecyclerView.Adapter {
                     return false;
                 }
             });
+
+            viewHolder.binding.messageSent.setText(newMessage.getMessage());
         }
         else{
             receiveViewHolder viewHolder = (receiveViewHolder)holder;
 
+
+            //image message.......................................
             if(newMessage.getMessage().equals("Photo")){
                 viewHolder.binding.recievedImage.setVisibility(View.VISIBLE);
                 viewHolder.binding.messageRecieve.setVisibility(View.GONE);
                 Glide.with(context).load(newMessage.getImageUrl()).placeholder(R.drawable.googleg_disabled_color_18).into(viewHolder.binding.recievedImage);
             }
 
-            viewHolder.binding.messageRecieve.setText(newMessage.getMessage());
+
+            //Reaction received.............................
             if(newMessage.getFeelings() >=0){
-                //newMessage.setFeelings(reactions[(int)newMessage.getFeelings()]);
                 viewHolder.binding.feelingFrom.setImageResource(reactions[(int)newMessage.getFeelings()]);
                 viewHolder.binding.feelingFrom.setVisibility(View.VISIBLE);
             }
             else{
                 viewHolder.binding.feelingFrom.setVisibility(View.GONE);
             }
+
+
+            //Pop-up of reactions...........................................................
             viewHolder.binding.messageRecieve.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -178,6 +190,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
                     return false;
                 }
             });
+            viewHolder.binding.messageRecieve.setText(newMessage.getMessage());
         }
     }
 

@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding.storyRecyclerview.setLayoutManager(layoutManager);
 
+
+        //Adding users  inside arraylist..............................................
         database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -139,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
         });
         //getSupportActionBar().hide();
 
+
+
+        //UNDER CONSTRUCTION FOR STORY .....................
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

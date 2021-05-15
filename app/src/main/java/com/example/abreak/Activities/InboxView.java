@@ -47,29 +47,34 @@ public class InboxView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInboxViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        database = FirebaseDatabase.getInstance();
+        storage = FirebaseStorage.getInstance();
 
+
+        //Initialize.................
+        ArrayList<messageInbox> messages = new ArrayList<>();
+        MessageAdapter messageAdapter = new MessageAdapter(this, messages, sender, receiver);
+
+        //Unique room for sender and receiver................
         String name = getIntent().getStringExtra("name");
         receiver_uid = getIntent().getStringExtra("uid");
         sender_uid = FirebaseAuth.getInstance().getUid();
+        sender = sender_uid + receiver_uid;
+        receiver = receiver_uid + sender_uid;
 
+
+        //Progress bar..................
         dial = new ProgressDialog(this);
         dial.setMessage("Sending Image...");
         dial.setCancelable(false);
 
-        database = FirebaseDatabase.getInstance();
-        storage = FirebaseStorage.getInstance();
 
-        sender = sender_uid + receiver_uid;
-        receiver = receiver_uid + sender_uid;
-
-        ArrayList<messageInbox> messages = new ArrayList<>();
-        MessageAdapter messageAdapter = new MessageAdapter(this, messages, sender, receiver);
-
+        //Adapter set...........................................
         binding.inboxRecyclerview.setAdapter(messageAdapter);
         binding.inboxRecyclerview.setLayoutManager(new LinearLayoutManager(this));
 
 
-
+        //Send button listener............................................
         binding.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +83,8 @@ public class InboxView extends AppCompatActivity {
                 messageInbox message = new messageInbox(sender_uid, chat, date.getTime());
                 binding.messagebox.setText("");
 
+
+                //Displaying messages inside inbox layout.................................
                 database.getReference().child("chats")
                         .child(sender)
                         .child("messages").addValueEventListener(new ValueEventListener() {
@@ -91,7 +98,6 @@ public class InboxView extends AppCompatActivity {
                         }
                         messageAdapter.notifyDataSetChanged();
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -99,13 +105,16 @@ public class InboxView extends AppCompatActivity {
                 });
 
 
-                String key = database.getReference().push().getKey();
+                //For showing last sent message...................................................
                 HashMap<String, Object> recentMsg = new HashMap<>();
                 recentMsg.put("recentmsg", message.getMessage());
                 recentMsg.put("recentmsgTime", date.getTime());
-
                 database.getReference().child("chats").child(sender).updateChildren(recentMsg);
                 database.getReference().child("chats").child(receiver).updateChildren(recentMsg);
+
+
+                //Chat sending to sender and receiver database..................
+                String key = database.getReference().push().getKey();
                 database.getReference().child("chats")
                         .child(sender)
                         .child("messages")
@@ -138,13 +147,13 @@ public class InboxView extends AppCompatActivity {
                 startActivityForResult(intent, 30);
             }
         });
-
-
-
         getSupportActionBar().setTitle(name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
+
+    //Sending image messages..............................
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,9 +185,10 @@ public class InboxView extends AppCompatActivity {
                                         HashMap<String, Object> recentMsg = new HashMap<>();
                                         recentMsg.put("recentmsg", message.getMessage());
                                         recentMsg.put("recentmsgTime", date.getTime());
-
                                         database.getReference().child("chats").child(sender).updateChildren(recentMsg);
                                         database.getReference().child("chats").child(receiver).updateChildren(recentMsg);
+
+
                                         database.getReference().child("chats")
                                                 .child(sender)
                                                 .child("messages")
@@ -199,7 +209,7 @@ public class InboxView extends AppCompatActivity {
 
                                             }
                                         });
-                                        Toast.makeText(InboxView.this, imagePath, Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(InboxView.this, imagePath, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
